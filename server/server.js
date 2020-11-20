@@ -15,15 +15,12 @@ app.use(express.json())
 app.get("/api/v1/films", async (req, res) => {
 
     try {
-        const results = await db.query('select * from films');
-        // const filmsRatingData = await db.query('select * from films left join (select films_id, count(*), trunc(avg(rating),1)as average_rating from reviews group by films_id)reviews on films.id = reviews.films_id')
-        // console.log("results",results)
-        // console.log("films Data",filmsRatingData)
+        const filmsRatingData = await db.query("select * from films left join (select films_id, count(*), trunc(avg(rating),1) as average_rating from reviews group by films_id) reviews on films.id = reviews.films_id")
         res.status(200).json({
             status: "success",
-            results: results.rows.length,
+            results: filmsRatingData.rows.length,
             data: {
-                films: results.rows
+                films: filmsRatingData.rows
             }
         })
 
@@ -37,7 +34,7 @@ app.get("/api/v1/films", async (req, res) => {
 //get individual film
 app.get("/api/v1/films/:id", async (req, res) => {
     try {
-        const films = await db.query("select * from films where id =$1", [
+        const films = await db.query("select * from films left join (select films_id, count(*), trunc(avg(rating),1) as average_rating from reviews group by films_id) reviews on films.id = reviews.films_id where id =$1", [
             req.params.id])
 
 
@@ -62,7 +59,6 @@ app.get("/api/v1/films/:id", async (req, res) => {
 //create a new film
 app.post("/api/v1/films", async (req, res) => {
     console.log(req.body)
-
     try{
         const results = await db.query("INSERT INTO films(name,genre) values($1, $2) returning *", [req.body.name, req.body.genre])
         console.log(results)

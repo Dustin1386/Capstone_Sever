@@ -1,0 +1,6 @@
+CREATE TABLE films (
+    id BIGSERIAL NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    genre TEXT NOT NULL
+    
+)

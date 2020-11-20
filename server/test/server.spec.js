@@ -1,43 +1,70 @@
-const app = require('../server')
-const supertest = require('supertest')
+const app = require("../server");
+const supertest = require("supertest");
+const knex = require("knex");
+const helpers = require("./helpers");
+const chai = require("chai");
 
-describe('GET /api/v1/films',()=>{
-    it.only('GET / responds with 200 and a list of films',()=>{
-        return supertest(app)
-        .get('/api/v1/films')
-        .expect(200,)
-    })
-})
+describe("server test", function () {
+  before("make instance", () => {
+    db = knex({
+      client: "pg",
+      connection: process.env.TEST_DB_URL,
+    });
+    app.set("db", db);
+  });
 
-describe('GET /films/:id',()=>{
-    it('GET /films/:id by ID from the server',()=>{
-        const newFilm = films
-        return supertest(app)
-        .get('/films/:id')
-        .expect(200,newFilm)
-    })
-})
+  const testFilms = helpers.makeFilmsArray();
 
-describe('POST /films',()=>{
-    it('POST /films new film',()=>{
-        return supertest(app)
-        .post('films')
-        .expect(201, 'content created')
-    })
-})
+  after("disconnect from db", () => db.destroy());
 
-describe('POST /films',()=>{
-    it('POST /films/:id/addReview new film review',()=>{
-        return supertest(app)
-        .post('films')
-        .expect(201, 'content created')
-    })
-})
+  before("cleanup", () => helpers.cleanTables(db));
 
-describe('DELETE /films',()=>{
-    it('DELETE /films/:id delete film from DB',()=>{
+  afterEach("cleanup", () => helpers.cleanTables(db));
+
+  // Get all films
+
+  describe("GET /films", () => {
+    context("Given there are no films in the database", () => {
+      it("responds with 200 and an empty array", () => {
         return supertest(app)
-        .delete('films')
-        .expect(204, 'No Content')
-    })
-})
+          .get("/api/v1/films")
+          .expect(200, {
+            status: "success",
+            results: 0,
+            data: { films: [] },
+          });
+      });
+    });
+    context("Given there are films in the database", () => {
+      console.log(testFilms);
+      beforeEach("insert films", () => {
+        return helpers.seedMovies(db, testFilms);
+      });
+      it("responds with 200 and with all films", () => {
+        return supertest(app)
+          .get("/api/v1/films")
+          .expect(200, {
+            status: "success",
+            results: 4,
+            data: { films: testFilms },
+          });
+      });
+    //  Test for Single film
+      it("responds with 200 and a single film", () => {
+        return supertest(app)
+          .get("/api/v1/films/1")
+          .expect(200, {
+            status: "worked",
+            data: {
+              films: {
+                id: "1",
+                name: "john",
+                genre: "horror",
+              },
+              reviews: [],
+            },
+          });
+      });
+    });
+  });
+});
