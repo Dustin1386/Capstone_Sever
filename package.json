@@ -6,7 +6,10 @@
   "scripts": {
     "start": "nodemon server.js",
     "test": "set PGDATABASE=filmtest&& mocha",
-    "migrate": "postgrator --config postgrator-config.js"
+    "migrate": "postgrator --config postgrator-config.js",
+    "predeploy": "npm audit && npm run migrate:production",
+    "deploy": "git push heroku master",
+    "postdeploy": "npm run migrate:production"
   },
   "keywords": [],
   "engines": {
