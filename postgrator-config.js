@@ -8,3 +8,4 @@ module.exports = {
      
 }
 
+console.log("connection string ",module.exports.connectionString)
