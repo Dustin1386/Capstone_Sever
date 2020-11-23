@@ -8,4 +8,4 @@ module.exports = {
      
 }
 console.log(process.env.DATABASE_URL)
-consoel.log(connectionString)
+console.log(connectionString)
