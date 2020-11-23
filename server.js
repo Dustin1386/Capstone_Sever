@@ -9,7 +9,7 @@ const cors = require('cors')
 const app = express()
 
 app.use(cors({
-    origin: 'https://movie-jrsrj3d2g.vercel.app'
+    origin: 'https://movie-a9o6j7gkc.vercel.app/'
 }))
 app.use(express.json())
 
