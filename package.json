@@ -6,14 +6,15 @@
   "scripts": {
     "start": "nodemon server.js",
     "test": "set PGDATABASE=filmtest&& mocha",
-    "migrate": "postgrator --config postgrator-config.js",
+    "migrate": "postgrator postgrator-config.js",
+    "migrate:production": "heroku run npm run migrate",
     "predeploy": "npm audit && npm run migrate:production",
     "deploy": "git push heroku master",
     "postdeploy": "npm run migrate:production"
   },
   "keywords": [],
   "engines": {
-    "node":"12.18.3"
+    "node": "12.18.3"
   },
   "author": "",
   "license": "ISC",
@@ -23,13 +24,14 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.6",
-    "pg": "^8.4.2"
+    "pg": "^8.4.2",
+    "postgrator": "^4.1.1",
+    "postgrator-cli": "^4.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "knex": "^0.21.12",
     "mocha": "^8.2.1",
-    "postgrator-cli": "^3.2.0",
     "supertest": "^6.0.1"
   }
 }
