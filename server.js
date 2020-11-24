@@ -133,7 +133,7 @@ app.post("/api/v1/films/:id/addReview", async (req, res)=>{
 
 module.exports = app
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 5432;
 app.listen(port, () => {
     console.log(`listenting on ${port}`)
 })
