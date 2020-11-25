@@ -36,7 +36,6 @@ describe("server test", function () {
       })
     })
     context("Given there are films in the database", () => {
-      console.log(testFilms);
       beforeEach("insert films", () => {
         return helpers.seedMovies(db, testFilms);
       })
