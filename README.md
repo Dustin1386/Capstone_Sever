@@ -1,7 +1,7 @@
 # Capstone_Sever
 
 
-**[title](https://movie-aftvtyh5k.vercel.app/)**
+**[Movie Rater](https://movie-aftvtyh5k.vercel.app/)**
 
 
 **Summary**
