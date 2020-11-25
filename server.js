@@ -25,7 +25,7 @@ app.get("/api/v1/films", async (req, res) => {
         })
 
     } catch (err) {
-        console.log(err);
+
 
     }
 
@@ -51,17 +51,15 @@ app.get("/api/v1/films/:id", async (req, res) => {
 
         })
     } catch (err) {
-        console.log(err)
+       
     }
 })
 
 
 //create a new film
 app.post("/api/v1/films", async (req, res) => {
-    console.log(req.body)
     try{
         const results = await db.query("INSERT INTO films(name,genre) values($1, $2) returning *", [req.body.name, req.body.genre])
-        console.log(results)
         res.status(201).json({
             status: "worked",
             data: {
@@ -71,7 +69,7 @@ app.post("/api/v1/films", async (req, res) => {
         })
 
     }catch(err){
-        console.log(err)
+       
     }
 
 
@@ -86,7 +84,6 @@ app.put("/api/v1/films/:id", async (req, res) => {
     try{
         const results = await db.query("UPDATE films SET name = $1, genre = $2 where id = $3 returning *", 
         [req.body.name, req.body.genre, req.params.id])
-        console.log(results)
         res.status(201).json({
             status: "worked",
             data: {
@@ -96,7 +93,7 @@ app.put("/api/v1/films/:id", async (req, res) => {
         })
 
     }catch(err){
-        console.log(err)
+        
     }
 })
 // delte a film
@@ -104,12 +101,11 @@ app.delete("/api/v1/films/:id",async (req, res) => {
 
     try{
     const results = await db.query("DELETE FROM films where id = $1",[req.params.id])
-    console.log(results)
     res.status(204).json({
         status: "deleted",
     })
 }catch(err){
-    console.log(err)
+   
 }
 })
 
