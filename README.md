@@ -10,8 +10,8 @@ app brings you joy with an ability to document and rate your favorite movies. To
 This Application was built using React,Node.js,PostgreSQL and Express.
 
 
-![](imgs/movie.png)
-![](imgs/movie2.png)
+![](serverimg/movie.png)
+![](serverimg/movie2.png)
 
 
 
