@@ -5,5 +5,5 @@ CREATE TABLE reviews (
     review TEXT NOT NULL,
     rating INT NOT NULL check(rating >=0 and rating <=5)
 
-);
+)
     
