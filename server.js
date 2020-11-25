@@ -8,9 +8,7 @@ const cors = require('cors')
 
 const app = express()
 
-// app.use(cors({
-//     origin: 'https://movie-64l5t8675.vercel.app/'
-// }))
+app.use(cors())
 app.use(express.json())
 
 //get all films
