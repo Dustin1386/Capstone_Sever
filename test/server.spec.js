@@ -1,25 +1,25 @@
-const app = require("../server");
-const supertest = require("supertest");
-const knex = require("knex");
-const helpers = require("./helpers");
-const chai = require("chai");
+const app = require("../server")
+const supertest = require("supertest")
+const knex = require("knex")
+const helpers = require("./helpers")
+const chai = require("chai")
 
 describe("server test", function () {
   before("make instance", () => {
     db = knex({
       client: "pg",
       connection: process.env.TEST_DATABASE_URL,
-    });
+    })
     app.set("db", db);
-  });
+  })
 
-  const testFilms = helpers.makeFilmsArray();
+  const testFilms = helpers.makeFilmsArray()
 
-  after("disconnect from db", () => db.destroy());
+  after("disconnect from db", () => db.destroy())
 
-  before("cleanup", () => helpers.cleanTables(db));
+  before("cleanup", () => helpers.cleanTables(db))
 
-  afterEach("cleanup", () => helpers.cleanTables(db));
+  afterEach("cleanup", () => helpers.cleanTables(db))
 
   // Get all films
 
@@ -32,14 +32,14 @@ describe("server test", function () {
             status: "success",
             results: 0,
             data: { films: [] },
-          });
-      });
-    });
+          })
+      })
+    })
     context("Given there are films in the database", () => {
       console.log(testFilms);
       beforeEach("insert films", () => {
         return helpers.seedMovies(db, testFilms);
-      });
+      })
       it("responds with 200 and with all films", () => {
         return supertest(app)
           .get("/api/v1/films")
@@ -47,8 +47,8 @@ describe("server test", function () {
             status: "success",
             results: 4,
             data: { films: testFilms },
-          });
-      });
+          })
+      })
     //  Test for Single film
       it("responds with 200 and a single film", () => {
         return supertest(app)
@@ -63,8 +63,8 @@ describe("server test", function () {
               },
               reviews: [],
             },
-          });
-      });
-    });
-  });
-});
+          })
+      })
+    })
+  })
+})
